@@ -40,7 +40,7 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <router-vue></router-vue>
+      <router-view/>
     </v-content>
   </v-app>
 </template>
