@@ -1,60 +1,83 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+    <v-navigation-drawer app v-model="drawer">
+      <v-list>
+        <v-list-item
+                v-for="link in links"
+                :key="link.title"
+                :to="link.url"
+        >
+          <v-list-item-icon>
+            <v-icon>{{link.icon}}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="link.title"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
     <v-content>
-      <HelloWorld/>
+      <v-toolbar dark color="success">
+        <v-app-bar-nav-icon
+          @click="drawer = !drawer"
+          class="hidden-md-and-up"
+        >
+
+        </v-app-bar-nav-icon>
+        <v-toolbar-title>Ad application</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn
+                 v-for="link in links"
+                 :key="link.title"
+                 :to="link.url" text
+          >
+            <v-icon left>{{link.icon}}</v-icon>
+            {{link.title}}
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <router-vue></router-vue>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
   data: () => ({
-    //
-  }),
+    drawer: false,
+    links: [
+      {
+        title: 'Login',
+        icon: 'mdi-lock',
+        url: '/login'
+      },
+      {
+        title: 'Registration',
+        icon: 'mdi-face',
+        url: '/registration'
+      },
+      {
+        title: 'Orders',
+        icon: 'mdi-bookmark',
+        url: '/orders'
+      },
+      {
+        title: 'New ad',
+        icon: 'mdi-note-plus',
+        url: '/new'
+      },
+      {
+        title: 'My ads',
+        icon: 'mdi-format-list-bulleted-square',
+        url: '/list'
+      },
+    ]
+  })
 };
 </script>
