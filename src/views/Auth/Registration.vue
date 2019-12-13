@@ -62,7 +62,7 @@
                                 color="green"
                                 :dark="valid"
                                 @click="onSubmit"
-                                :disabled="!valid"
+                                :disabled="!valid || loading"
                         >
                             Create account
                         </v-btn>
@@ -95,6 +95,11 @@
                 ]
             }
         },
+        computed: {
+            loading() {
+                return this.$store.getters.loading;
+            }
+        },
         methods: {
             onSubmit() {
                 if (this.$refs.form.validate()) {
@@ -102,9 +107,15 @@
                         email: this.email,
                         password: this.password
                     }
-                    console.log(user);
+                    this.$store.dispatch('registerUser', user)
+                    .then(() => {
+                        this.$router.push('/')
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    });
                 }
             }
-        }
+        },
     };
 </script>
